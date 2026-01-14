@@ -1,33 +1,47 @@
-# Shopee Print Admin（展示版）
+Shopee Print Admin（展示版）
 
-此 Repository 為「展示版」：提供前端 Admin UI 與系統架構/介面說明，用於作品集展示與商務洽談。
-- 不包含：爬蟲抓取、訂單判定規則、列印模板/驅動、資料庫連線細節等商業核心
-- 不提供任何 Cookie、Session、API Key、資料庫密碼等敏感資訊
+本 Repository 為 展示用途（Showcase），提供前端 Admin UI 以及系統架構與介面整合說明，主要用於作品集展示與商務洽談評估。
 
-## 系統架構
+不包含：爬蟲抓取機制、訂單判定與解析規則、列印模板／列印驅動、資料庫連線與實際後端實作等商業核心
 
-請見：`docs/architecture.md`
+不提供：任何 Cookie、Session、API Key、資料庫帳密或真實營運資料
 
-## Demo（不需後端）
+系統架構
 
-1. 開啟 `admin.html`
-2. 點「Demo 假資料」即可看到 UI 展示
+完整系統分層與模組互動關係請參考：
+docs/architecture.md
+（僅呈現架構與資料流概念，不揭露實作細節）
 
-## 對接私有後端（可選）
+Demo（不需後端）
 
-若你有私有後端（不在此 repo），可在頁面上填入：
-- API Base：`http://YOUR_HOST:8000`
-- API Key：你的 `X-API-Key`
+本展示版可於 無後端環境 下進行操作示範：
 
-然後點「刷新」測試連線。
+以瀏覽器直接開啟 admin.html
 
-## 檔案結構
+點選「Demo 假資料」即可瀏覽 UI 介面與操作流程
 
-- `admin.html`：展示版前端入口
-- `assets/admin.js`：展示版前端（已移除 .env/Cookie/Session 更新功能）
-- `assets/admin.css`：樣式
-- `docs/architecture.md`：系統架構圖（Mermaid）
+對接私有後端（選用）
 
-## 安全與授權
+若你另有自行開發或授權之 私有後端服務（不屬於本 Repository），可於頁面中填入：
 
-本展示版不含可運行之商業核心；請勿在公開 repo 提交任何 `.env`、Cookie、Session、帳密、真實訂單資料或日誌。
+API Base：http://YOUR_HOST:8000
+
+API Key：你的 X-API-Key
+
+並點選「刷新」以測試連線狀態。
+（本 Repository 不包含任何後端實作或連線設定）
+
+檔案結構
+
+admin.html：展示版前端入口（純前端）
+
+assets/admin.js：前端互動邏輯（已移除 .env／Cookie／Session 更新功能）
+
+assets/admin.css：樣式定義
+
+docs/architecture.md：系統架構圖（Mermaid）
+
+安全與授權說明
+
+本 Repository 僅供 展示、評估與討論用途，不構成任何形式之軟體授權或可直接商用之交付內容。
+請勿於公開環境提交任何敏感資訊（包含 .env、Cookie、Session、帳密、真實訂單資料或日誌）。

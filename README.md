@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="docs/cover.png" width="800">
+</p>
+
+
 Shopee Print Admin（展示版）
 
 本 Repository 為 展示用途（Showcase），提供前端 Admin UI 以及系統架構與介面整合說明，主要用於作品集展示與商務洽談評估。

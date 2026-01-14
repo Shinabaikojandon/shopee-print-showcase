@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shopee Print Admin</title>
+  <link rel="stylesheet" href="./assets/admin.css" />
+  <meta name="format-detection" content="telephone=no">
+</head>
+
+<body>
+  <!-- ================== Topbar ================== -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between; align-items:center;">
+        <div class="title">
+          Shopee Print Admin（展示版）
+          <span id="buildTag" class="hint" style="margin-left:8px;"></span>
+        </div>
+
+        <!-- 桌機：收合/展開設定；手機會被 JS 隱藏 -->
+        <button class="btn secondary" id="btnToggleSettings" type="button">收合</button>
+      </div>
+
+      <!-- ================== 設定區（桌機完整；手機精簡） ================== -->
+      <section class="panel" id="settingsPanel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col">
+              <label class="label" for="baseUrl">API Base</label>
+              <input id="baseUrl" value="" placeholder="http://YOUR_HOST:8000" autocomplete="off" />
+              <div class="hint">請填入你的 API Base，例如 http://YOUR_HOST:8000（本展示版不含爬蟲/列印核心）</div>
+            </div>
+
+            <div class="col">
+              <label class="label" for="apiKey">API Key（X-API-Key）</label>
+              <input id="apiKey" placeholder="貼上你的 API_KEY" autocomplete="off" />
+              <div class="hint">手機可儲存設定，下次不用再輸入</div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px; gap:10px;">
+            <button class="btn secondary" id="btnSaveConfig" type="button">儲存設定</button>
+
+            <button class="btn" id="btnRefresh" type="button">刷新</button>
+            <button class="btn secondary" id="btnHealth" type="button">/health</button>
+
+            <!-- 桌機專用：手機會被 JS 隱藏 -->
+            <button class="btn secondary" id="btnDemo" type="button">Demo 假資料</button>
+
+            <label class="btn secondary" id="testModeWrap" style="display:flex; gap:10px; align-items:center;">
+              <input type="checkbox" id="testMode" />
+              測試模式
+            </label>
+
+            <label class="btn secondary" style="display:flex; gap:10px; align-items:center;">
+              <input type="checkbox" id="autoRefresh" checked />
+              Auto
+            </label>
+
+            <span class="hint warn" id="apiHint"></span>
+          </div>
+
+          <div class="row" style="margin-top:8px;">
+            <span class="mono hint">Session：<span id="sessionOut"></span></span>
+            <span class="mono hint" id="healthOut" style="margin-left:10px;"></span>
+            <span class="hint" id="jsAlive" style="margin-left:auto;"></span>
+          </div>
+
+          <div class="statusline statusbar ok" id="topMsg"></div>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <!-- ================== 主畫面：抓單列表 ================== -->
+
+  <main class="wrap">
+    <section class="panel" id="panelList">
+      <div class="row" style="justify-content:space-between;">
+        <div style="font-weight:700;">抓單列表</div>
+        <div class="hint" id="listMeta"></div>
+      </div>
+      <div class="list" id="stream"></div>
+    </section>
+  </main>
+
+  <!-- ================== 使用者查詢 Modal ================== -->
+  <div class="modal-mask" id="userModalMask">
+    <div class="modal">
+      <div class="row" style="justify-content:space-between; align-items:center;">
+        <div id="userModalTitle" style="font-weight:700;">客戶訂單查詢</div>
+        <button class="btn secondary" id="btnCloseUserModal" type="button">關閉</button>
+      </div>
+
+      <div class="panel" style="margin-top:12px;">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col">
+              <label class="label">日期起</label>
+              <div class="datefield">
+                <input id="filterStartDate" type="date" />
+                <button class="iconbtn mini" type="button" data-pick="filterStartDate" title="選擇開始日期">📅</button>
+              </div>
+            </div>
+
+            <div class="col">
+              <label class="label">日期迄</label>
+              <div class="datefield">
+                <input id="filterEndDate" type="date" />
+                <button class="iconbtn mini" type="button" data-pick="filterEndDate" title="選擇結束日期">📅</button>
+              </div>
+              <div class="errorline" id="dateError" style="display:none;">截止日不能早於開始日</div>
+            </div>
+
+            <div class="col" style="min-width:240px;">
+              <label class="label">&nbsp;</label>
+              <div class="row" style="gap:8px;">
+                <button class="btn secondary" id="btnQuick7d" type="button">近 7 天</button>
+                <button class="btn secondary" id="btnQuick30d" type="button">近 30 天</button>
+                <button class="btn" id="btnApplyFilter" type="button">套用</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="totalbox" id="userSummary">尚未篩選</div>
+
+          <div class="copywrap">
+            <div class="row">
+              <div class="small">可複製明細文字</div>
+              <div class="row" style="gap:8px;">
+                <button class="btn" id="btnCopyText" type="button">複製</button>
+              </div>
+            </div>
+            <textarea id="copyText" rows="6" placeholder="套用後會自動產生"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:12px;">
+        <div class="panel-body">
+          <div style="font-weight:700;">訂單明細</div>
+          <div id="userTableWrap"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================== Demo Modal（展示版：前端假資料，不呼叫後端） ================== -->
+（桌機專用；手機不提供入口） ================== -->
+  <div class="modal-mask" id="demoMask">
+    <div class="modal">
+      <h3>Demo 假資料（前端展示，不呼叫後端）</h3>
+      <div class="hint">
+1) JSON（陣列或單筆）：
+   [{"username":"王小明","raw_message":"250+2 手圍14","timestamp":"2025-12-29 10:20"}]
+
+2) 行格式（每行一筆）：
+   A) user | msg | time
+   B) user | msg | amount | status | time（此展示版不含後端邏輯，僅用於 UI 展示）
+      </div>
+
+      <textarea id="demoInput" rows="8" placeholder="貼上 JSON 或行格式..."></textarea>
+      <div class="errorline" id="demoErr"></div>
+
+      <div class="footer">
+        <button class="btn secondary" id="btnDemoCancel" type="button">取消</button>
+        <button class="btn" id="btnDemoApply" type="button">套用</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./assets/admin.js"></script>
+</body>
+</html>

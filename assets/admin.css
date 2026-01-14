@@ -1,0 +1,204 @@
+/* 這份是基於你目前的 admin.css 補強而來（保留既有主題色與版型） */
+
+:root{
+  --bg:#0b0c10; --card:#111318; --muted:#9aa4b2;
+  --text:#e7eaf0; --line:#232733;
+  --ok:#2a7; --bad:#d33; --cancel:#777; --btn:#1b2230;
+  --warn:#d8a500;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif;
+  background:var(--bg); color:var(--text);
+}
+.wrap{max-width:860px;margin:0 auto;padding:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.col{flex:1;display:flex;flex-direction:column;gap:4px;min-width:180px}
+.label{font-size:12px;color:var(--muted)}
+.hint{font-size:12px;color:var(--muted);white-space:pre-wrap}
+.hint.warn{color:#ffd77a}
+
+input, textarea{
+  padding:8px 10px;border-radius:10px;
+  border:1px solid var(--line);
+  background:#0f121a;color:var(--text)
+}
+input:disabled, textarea:disabled{opacity:.5}
+textarea{width:100%}
+
+.btn{
+  padding:8px 12px;border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--btn);color:var(--text);
+  cursor:pointer;font-size:13px;
+  user-select:none;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn.secondary{background:transparent}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(11,12,16,.96);
+  border-bottom:1px solid var(--line);
+  padding:10px;
+}
+.title{font-size:16px;font-weight:700;margin:0}
+
+/* 設定區（可收合） */
+.panel{
+  margin-top:8px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px;
+  background:rgba(17,19,24,.7);
+}
+
+/* ⭐ 收合/展開：只影響「設定區」(#settingsPanel)，避免手機把 modal/其他 panel 內容整個藏掉 */
+.panel-body{margin-top:10px}
+
+#settingsPanel.collapsed{padding:0;border:0;background:transparent;}
+#settingsPanel.collapsed .panel-body{display:none;}
+
+@media (max-width: 520px){
+  /* 手機預設收合設定區，但其它 panel（含 modal）一律正常顯示 */
+  #settingsPanel:not(.manual-open){padding:0;border:0;background:transparent;}
+  #settingsPanel:not(.manual-open) .panel-body{display:none;}
+}
+
+
+.list{display:flex;flex-direction:column;gap:10px;padding-bottom:90px}
+.msg{
+  display:flex;gap:10px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:10px
+}
+.avatar{
+  width:34px;height:34px;border-radius:10px;
+  background:#0f121a;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:var(--muted)
+}
+.content{flex:1;min-width:0}
+.meta{display:flex;gap:6px;flex-wrap:wrap;font-size:12px;align-items:center}
+.pill{padding:2px 8px;border-radius:999px;border:1px solid var(--line)}
+.pill.ok{border-color:var(--ok);color:#bff3dc}
+.pill.bad{border-color:var(--bad);color:#ffb4b4}
+.pill.cancel{border-color:var(--cancel);color:#ccc}
+.pill.warn{border-color:var(--warn);color:#ffd77a}
+
+.text{margin-top:4px;font-size:13px;white-space:pre-wrap;word-break:break-word;}
+.error{margin-top:6px;font-size:12px;color:#ff9a9a;border-left:3px solid var(--bad);padding-left:8px}
+.actions{display:flex;flex-direction:column;gap:6px}
+.iconbtn{
+  width:36px;height:36px;border-radius:10px;
+  border:1px solid var(--line);background:#0f121a;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none;
+}
+.iconbtn:active{transform:translateY(1px)}
+.userlink{font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.statusbar{margin-top:6px;font-size:12px;white-space:pre-wrap}
+.statusbar.ok{color:#bff3dc}
+.statusbar.err{color:#ff9a9a}
+
+/* Modal */
+.modal-mask{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.55);
+  display:none; z-index:100;
+  padding:14px; overflow:auto;
+}
+.modal{
+  max-width:760px; margin:20px auto;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+}
+.modal h3{margin:0 0 10px 0;font-size:16px}
+.modal .footer{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+
+.table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px;}
+.table th,.table td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top;text-align:left;word-break:break-word;}
+
+.totalbox{
+  margin-top:10px;padding:10px;border:1px solid var(--line);
+  border-radius:12px;background:#0f121a;font-size:13px;white-space:pre-wrap;
+}
+
+.copywrap{
+  margin-top:10px;padding:10px;border:1px solid var(--line);
+  border-radius:12px;background:#0f121a;
+}
+.copywrap .row{justify-content:space-between}
+.small{font-size:12px;color:var(--muted)}
+
+/* ⭐ 補：你的 HTML 用了 errorline（保持可讀性） */
+.errorline{margin-top:6px;font-size:12px;color:#ff9a9a;white-space:pre-wrap}
+
+/* =========================
+   ✅ 新增：日期選擇器（📅 按鈕 + input 排版）
+   - 你已在 HTML 加了：
+     <div class="datefield">
+       <input type="date" ...>
+       <button class="iconbtn mini" data-pick="...">📅</button>
+     </div>
+   ========================= */
+.datefield{display:flex;align-items:center;gap:8px}
+.datefield input{flex:1;min-width:140px}
+.iconbtn.mini{
+  width:34px;height:34px;
+  border-radius:10px;
+  font-size:14px;
+  line-height:1;
+}
+/* 日期欄：input + 📅 按鈕 */
+.datefield{display:flex; gap:8px; align-items:center;}
+.iconbtn.mini{width:36px; height:36px; border-radius:10px;}
+
+
+/* 保險：modal 內的 panel-body 一律顯示（避免被其他規則誤傷） */
+.modal .panel-body{display:block !important;}
+
+
+#btnToggleSettings{display:inline-flex;}
+@media (max-width:520px){#btnToggleSettings{display:inline-flex !important;}}
+
+
+
+/* ===== v3 hotfix: 手機 modal 內容不可被誤隱藏 ===== */
+@media (max-width:520px){
+  #userModalMask .panel-body,
+  #envMask .panel-body{
+    display:block !important;
+  }
+}
+
+/* 隱藏真正的 <input type="date">，避免下拉/轉盤 UI */
+.hidden-date{
+  position:absolute !important;
+  left:-9999px !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+.chat-title {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+.iconbtn{
+  border:0;
+  background:transparent;
+  color:inherit;
+  opacity:.75;
+  cursor:pointer;
+  padding:2px 6px;
+  line-height:1;
+  border-radius:8px;
+}
+.iconbtn:hover{ opacity:1; background:rgba(255,255,255,.06); }

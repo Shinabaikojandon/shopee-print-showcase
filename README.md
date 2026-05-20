@@ -21,28 +21,16 @@ Demo（不需後端）
 
 本展示版可於 無後端環境 下進行操作示範：
 
-以瀏覽器直接開啟 admin.html
+以瀏覽器直接開啟介面
 
-點選「Demo 假資料」即可瀏覽 UI 介面與操作流程
 
 對接私有後端（選用）
 
-若你另有自行開發或授權之 私有後端服務（不屬於本 Repository），可於頁面中填入：
-
-API Base：http://YOUR_HOST:8000
-
-API Key：你的 X-API-Key
-
-並點選「刷新」以測試連線狀態。
-（本 Repository 不包含任何後端實作或連線設定）
+若你另有自行開發或授權之 私有後端服務，可於頁面中填入：
 
 檔案結構
 
-admin.html：展示版前端入口（純前端）
-
-assets/admin.js：前端互動邏輯（已移除 .env／Cookie／Session 更新功能）
-
-assets/admin.css：樣式定義
+展示版前端入口（純前端）
 
 docs/architecture.md：系統架構圖（Mermaid）
 
